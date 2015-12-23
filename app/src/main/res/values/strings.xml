@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">GankDaily</string>
+    <string name="error_no_network">网络连接不可用，请检查网络连接后重试</string>
+    <string name="failure_load_data">加载数据失败</string>
+    <string name="error_unknown">未知错误</string>
+
+    <string name="text_error" translatable="false">加载干货失败。。。点击重新加载</string>
+
+    <string name="text_no_data" translatable="false">今天没有干货哦</string>
+    <string name="image_error">图片加载失败</string>
+    <string name="loading">正在加载干货中</string>
+    <string name="success_update">更新成功！</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+
+</resources>
