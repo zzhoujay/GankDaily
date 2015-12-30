@@ -8,6 +8,7 @@ import zhou.app.gankdaily.App;
 import zhou.app.gankdaily.R;
 import zhou.app.gankdaily.model.GankDaily;
 import zhou.app.gankdaily.util.HashKit;
+import zhou.app.gankdaily.util.LogKit;
 import zhou.app.gankdaily.util.NetworkKit;
 
 /**
@@ -48,15 +49,18 @@ public class GankDailyProvider extends CommonProvider<GankDaily> {
     @Override
     protected void loadByNetwork(Action1<GankDaily> action1, boolean more) {
         NetworkKit.time(year, month, day, result -> {
+            GankDaily gankDaily = null;
             if (result != null) {
                 if (result.isSuccess()) {
-                    t = result.results;
+                    gankDaily = result.results;
+                    LogKit.i("gg", result);
                 } else {
                     App.toast(R.string.failure_load_data);
                 }
             } else {
                 App.toast(R.string.error_unknown);
             }
+            action1.call(gankDaily);
         });
     }
 

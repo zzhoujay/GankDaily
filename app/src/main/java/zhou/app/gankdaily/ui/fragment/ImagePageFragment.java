@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import zhou.app.gankdaily.R;
 import zhou.app.gankdaily.common.Config;
+import zhou.app.gankdaily.util.LogKit;
 
 public class ImagePageFragment extends Fragment {
 
@@ -23,6 +24,7 @@ public class ImagePageFragment extends Fragment {
         Bundle b = getArguments();
         if (b != null) {
             String url = b.getString(Config.Static.URL);
+            LogKit.i("url",url);
             Glide.with(getContext()).load(url).into(icon);
 //            Picasso.with(getActivity()).load(url).into(icon);
 //            icon.setOnClickListener({ v ->

@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 
-import rx.functions.Action0;
 import rx.functions.Action1;
 
 public class BaseFragment extends Fragment {
@@ -20,7 +19,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof Action0) {
+        if (activity instanceof Action1) {
             notifier = (Action1<Integer>) activity;
         }
     }
@@ -29,7 +28,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof Action0) {
+        if (context instanceof Action1) {
             notifier = (Action1<Integer>) context;
         }
     }

@@ -62,4 +62,9 @@ public class DailyAdapter extends BaseAdapter<DailyAdapter.Holder> {
         this.daily = daily;
         notifyDataSetChanged();
     }
+
+    public void clearData() {
+        this.daily = null;
+        notifyDataSetChanged();
+    }
 }

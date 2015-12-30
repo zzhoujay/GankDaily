@@ -57,4 +57,12 @@ public class Result extends BaseModel implements Parcelable {
             return new Result[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "results=" + results +
+                ", error=" + error +
+                '}';
+    }
 }
