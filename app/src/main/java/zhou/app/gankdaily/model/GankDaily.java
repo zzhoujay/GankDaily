@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class GankDaily extends BaseModel implements Parcelable {
 
+    public static final String GANK_DAILY = "gank_daily";
+
     public List<String> types;
     public List<List<Gank>> ganks;
 

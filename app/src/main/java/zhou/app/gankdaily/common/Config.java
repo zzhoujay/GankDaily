@@ -14,6 +14,8 @@ public class Config {
         public static boolean HANDLE_BY_ME = true;
 
         public static int MAX_iteration = 7;
+
+        public static long MIN_TIME = 4000000;
     }
 
     public static class Static {

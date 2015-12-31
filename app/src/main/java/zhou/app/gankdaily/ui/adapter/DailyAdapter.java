@@ -1,5 +1,7 @@
 package zhou.app.gankdaily.ui.adapter;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import rx.functions.Action2;
 import zhou.app.gankdaily.App;
 import zhou.app.gankdaily.R;
 import zhou.app.gankdaily.model.GankDaily;
@@ -22,10 +25,17 @@ public class DailyAdapter extends BaseAdapter<DailyAdapter.Holder> {
         return holder;
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(Holder holder, int position) {
         holder.title.setText(daily.getType(position));
-        holder.content.setText(TextKit.generate(daily.getGank(position), App.getApp().getResources().getColor(R.color.material_lightBlue_500, App.getApp().getTheme())));
+        int color;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            color = App.getApp().getResources().getColor(R.color.colorPrimary, App.getApp().getTheme());
+        } else {
+            color = App.getApp().getColor(R.color.colorPrimary);
+        }
+        holder.content.setText(TextKit.generate(daily.getGank(position), color));
     }
 
     @Override
@@ -43,18 +53,8 @@ public class DailyAdapter extends BaseAdapter<DailyAdapter.Holder> {
             title = (TextView) itemView.findViewById(R.id.title);
             content = (TextView) itemView.findViewById(R.id.content);
 
-//            if (itemView instanceof CardView) {
-//                def card = itemView as CardView
-//                if (App.themeIsLight()) {
-//                    card.setCardBackgroundColor(App.getInstance().getCardLight())
-//                    title.setTextColor(App.getInstance().getTextLight())
-//                } else {
-//                    card.setCardBackgroundColor(App.getInstance().getCardDark())
-//                    title.setTextColor(App.getInstance().getTextDark())
-//                }
-//            }
-
             content.setMovementMethod(LinkMovementMethod.getInstance());
+
         }
     }
 

@@ -12,7 +12,7 @@ import zhou.app.gankdaily.net.NetworkManager;
  */
 public class NetworkKit {
 
-    public static void time(int year, int month, int day, Action1<Result> closure) {
+    public static void daily(int year, int month, int day, Action1<Result> closure) {
         Request request = new Request.Builder().get().url(String.format("%s/%d/%d/%d", App.TIME_URL, year, month, day)).build();
         NetworkManager.getInstance().requestString(request, result -> {
             try {

@@ -1,7 +1,9 @@
 package zhou.app.gankdaily.ui.fragment;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +59,16 @@ public class BaseFragment extends Fragment {
     }
 
     protected void initView(View v) {
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    protected void setStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= 21)
+            getActivity().getWindow().setStatusBarColor(color);
+    }
+
+    protected void setToolbarColor(int color){
 
     }
 

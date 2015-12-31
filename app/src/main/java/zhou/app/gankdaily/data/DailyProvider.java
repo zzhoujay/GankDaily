@@ -1,5 +1,8 @@
 package zhou.app.gankdaily.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.File;
 import java.util.Calendar;
 
@@ -14,12 +17,14 @@ import zhou.app.gankdaily.util.NetworkKit;
 /**
  * Created by zhou on 15-12-23.
  */
-public class GankDailyProvider extends CommonProvider<GankDaily> {
+public class DailyProvider extends CommonProvider<GankDaily> implements Parcelable {
+
+    public static final String DAILY_PROVIDER = "daily_provider";
 
     private int year, month, day;
     private boolean needCache;
 
-    public GankDailyProvider(int year, int month, int day) {
+    public DailyProvider(int year, int month, int day) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -48,12 +53,12 @@ public class GankDailyProvider extends CommonProvider<GankDaily> {
 
     @Override
     protected void loadByNetwork(Action1<GankDaily> action1, boolean more) {
-        NetworkKit.time(year, month, day, result -> {
+        NetworkKit.daily(year, month, day, result -> {
             GankDaily gankDaily = null;
             if (result != null) {
                 if (result.isSuccess()) {
                     gankDaily = result.results;
-                    LogKit.i("gg", result);
+                    LogKit.d("gg", result);
                 } else {
                     App.toast(R.string.failure_load_data);
                 }
@@ -86,21 +91,52 @@ public class GankDailyProvider extends CommonProvider<GankDaily> {
         return day;
     }
 
-    public GankDailyProvider getNextDay() {
+    public DailyProvider getNextDay() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DAY_OF_MONTH, day);
         calendar.add(Calendar.DAY_OF_MONTH, 1);
-        return new GankDailyProvider(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        return new DailyProvider(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
 
-    public GankDailyProvider getPrevDay() {
+    public DailyProvider getPrevDay() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DAY_OF_MONTH, day);
         calendar.add(Calendar.DAY_OF_MONTH, -1);
-        return new GankDailyProvider(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        return new DailyProvider(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.year);
+        dest.writeInt(this.month);
+        dest.writeInt(this.day);
+        dest.writeByte(needCache ? (byte) 1 : (byte) 0);
+    }
+
+    protected DailyProvider(Parcel in) {
+        this.year = in.readInt();
+        this.month = in.readInt();
+        this.day = in.readInt();
+        this.needCache = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<DailyProvider> CREATOR = new Parcelable.Creator<DailyProvider>() {
+        public DailyProvider createFromParcel(Parcel source) {
+            return new DailyProvider(source);
+        }
+
+        public DailyProvider[] newArray(int size) {
+            return new DailyProvider[size];
+        }
+    };
 }
